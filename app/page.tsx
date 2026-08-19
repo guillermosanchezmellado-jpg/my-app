@@ -10,8 +10,6 @@ export default function Home() {
   const [reservas, setReservas] = useState<any[]>([]);
   const [pistaSeleccionada, setPistaSeleccionada] = useState<{ pista: string; hora: string } | null>(null);
   const [nombreCliente, setNombreCliente] = useState('');
-  
-  // Estado para la fecha seleccionada (por defecto la de hoy en formato YYYY-MM-DD)
   const [fechaSeleccionada, setFechaSeleccionada] = useState(
     new Date().toISOString().split('T')[0]
   );
@@ -23,8 +21,6 @@ export default function Home() {
 
   useEffect(() => {
     cargarReservas();
-
-    // Canal en tiempo real para escuchar inserciones y borrados instantáneos
     const channel = supabase
       .channel('cambios-cliente')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'reservas' }, () => {
@@ -59,7 +55,6 @@ export default function Home() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-green-400 mb-6">🎾 Club Suboficiales</h1>
         
-        {/* Selector de fecha */}
         <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <label className="text-sm font-semibold text-slate-300">Selecciona el día de reserva:</label>
           <input 
@@ -75,7 +70,6 @@ export default function Home() {
             <h3 className="font-bold text-lg text-green-300 mb-3">{pista}</h3>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
               {HORARIOS.map((hora) => {
-                // Comprueba si está ocupada para la pista, la hora Y la fecha seleccionada
                 const ocupada = reservas.some(
                   r => r.Pista === pista && r.Hora === hora && r.fecha === fechaSeleccionada
                 );
