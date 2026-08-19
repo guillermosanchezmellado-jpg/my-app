@@ -41,12 +41,15 @@ export default function Home() {
     e.preventDefault();
     if (!pistaSeleccionada || !nombreCliente) return;
 
+    // Aseguramos que la fecha se envíe como texto
+    const fechaString = String(fechaSeleccionada);
+
     const { error } = await supabase.from('reservas').insert([
       { 
         Pista: pistaSeleccionada.pista, 
         Hora: pistaSeleccionada.hora, 
         Cliente: nombreCliente,
-        Fecha: fechaSeleccionada 
+        Fecha: fechaString 
       }
     ]);
 
