@@ -46,7 +46,7 @@ export default function Home() {
         Pista: pistaSeleccionada.pista, 
         Hora: pistaSeleccionada.hora, 
         Cliente: nombreCliente,
-        fecha: fechaSeleccionada 
+        Fecha: fechaSeleccionada 
       }
     ]);
 
@@ -81,7 +81,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
               {HORARIOS.map((hora) => {
                 const reservaEncontrada = reservas.find(
-                  r => r.Pista === pista && r.Hora === hora && r.fecha === fechaSeleccionada
+                  r => r.Pista === pista && r.Hora === hora && r.Fecha === fechaSeleccionada
                 );
                 const ocupada = !!reservaEncontrada;
 
@@ -101,7 +101,7 @@ export default function Home() {
                     {ocupada && (
                       <div className="mt-2 text-[11px] text-slate-300 space-y-0.5 text-center">
                         <p className="font-semibold text-red-300 truncate">👤 {reservaEncontrada.Cliente}</p>
-                        <p className="text-slate-400">📅 {reservaEncontrada.fecha}</p>
+                        <p className="text-slate-400">📅 {reservaEncontrada.Fecha}</p>
                       </div>
                     )}
                   </div>
