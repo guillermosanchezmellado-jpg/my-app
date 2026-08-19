@@ -78,24 +78,32 @@ export default function Home() {
         {PISTAS.map((pista) => (
           <div key={pista} className="bg-slate-800 p-6 rounded-2xl border border-slate-700 mb-6">
             <h3 className="font-bold text-lg text-green-300 mb-3">{pista}</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
               {HORARIOS.map((hora) => {
-                const ocupada = reservas.some(
+                const reservaEncontrada = reservas.find(
                   r => r.Pista === pista && r.Hora === hora && r.fecha === fechaSeleccionada
                 );
+                const ocupada = !!reservaEncontrada;
+
                 return (
-                  <button 
-                    key={hora} 
-                    disabled={ocupada} 
-                    onClick={() => setPistaSeleccionada({ pista, hora })} 
-                    className={`p-2.5 rounded-lg text-sm font-bold transition-all ${
-                      ocupada 
-                        ? "bg-red-900/40 text-red-400 cursor-not-allowed border border-red-800/50" 
-                        : "bg-slate-700 hover:bg-green-500 hover:text-slate-950 cursor-pointer"
-                    }`}
-                  >
-                    {ocupada ? "Ocupada" : hora}
-                  </button>
+                  <div key={hora} className="flex flex-col">
+                    <button 
+                      disabled={ocupada} 
+                      onClick={() => setPistaSeleccionada({ pista, hora })} 
+                      className={`p-2.5 rounded-lg text-sm font-bold transition-all ${
+                        ocupada 
+                          ? "bg-red-900/40 text-red-400 cursor-not-allowed border border-red-800/50" 
+                          : "bg-slate-700 hover:bg-green-500 hover:text-slate-950 cursor-pointer"
+                      }`}
+                    >
+                      {ocupada ? "Ocupada" : hora}
+                    </button>
+                    {ocupada && (
+                      <span className="text-[11px] text-slate-400 mt-1 text-center truncate">
+                        👤 {reservaEncontrada.Cliente}
+                      </span>
+                    )}
+                  </div>
                 );
               })}
             </div>
@@ -107,7 +115,8 @@ export default function Home() {
             <form onSubmit={confirmarReserva} className="bg-slate-800 p-6 rounded-2xl w-full max-w-sm border border-slate-700">
               <h2 className="text-xl font-bold text-green-400 mb-2">Confirmar Reserva</h2>
               <p className="text-sm text-slate-400 mb-4">
-                {pistaSeleccionada.pista} - {pistaSeleccionada.hora} ({fechaSeleccionada})
+                {pistaSeleccionada.pista} - {pistaSeleccionada.hora} <br/>
+                <span className="text-green-400 font-semibold">Fecha: {fechaSeleccionada}</span>
               </p>
               <input 
                 type="text" 
