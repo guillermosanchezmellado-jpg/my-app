@@ -86,11 +86,11 @@ export default function Home() {
                 const ocupada = !!reservaEncontrada;
 
                 return (
-                  <div key={hora} className="flex flex-col">
+                  <div key={hora} className="flex flex-col bg-slate-900/50 p-2 rounded-xl border border-slate-700/50">
                     <button 
                       disabled={ocupada} 
                       onClick={() => setPistaSeleccionada({ pista, hora })} 
-                      className={`p-2.5 rounded-lg text-sm font-bold transition-all ${
+                      className={`p-2 rounded-lg text-sm font-bold transition-all ${
                         ocupada 
                           ? "bg-red-900/40 text-red-400 cursor-not-allowed border border-red-800/50" 
                           : "bg-slate-700 hover:bg-green-500 hover:text-slate-950 cursor-pointer"
@@ -99,9 +99,10 @@ export default function Home() {
                       {ocupada ? "Ocupada" : hora}
                     </button>
                     {ocupada && (
-                      <span className="text-[11px] text-slate-400 mt-1 text-center truncate">
-                        👤 {reservaEncontrada.Cliente}
-                      </span>
+                      <div className="mt-2 text-[11px] text-slate-300 space-y-0.5 text-center">
+                        <p className="font-semibold text-red-300 truncate">👤 {reservaEncontrada.Cliente}</p>
+                        <p className="text-slate-400">📅 {reservaEncontrada.fecha}</p>
+                      </div>
                     )}
                   </div>
                 );
