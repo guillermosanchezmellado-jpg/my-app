@@ -41,7 +41,6 @@ export default function Home() {
     e.preventDefault();
     if (!pistaSeleccionada || !nombreCliente) return;
 
-    // Aseguramos que la fecha se envíe como texto
     const fechaString = String(fechaSeleccionada);
 
     const { error } = await supabase.from('reservas').insert([
@@ -68,6 +67,7 @@ export default function Home() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-green-400 mb-6">🎾 Club Suboficiales</h1>
         
+        {/* SELECTOR DE FECHAS */}
         <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <label className="text-sm font-semibold text-slate-300">Selecciona el día de reserva:</label>
           <input 
