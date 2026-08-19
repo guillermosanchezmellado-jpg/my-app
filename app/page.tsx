@@ -15,8 +15,12 @@ export default function Home() {
   );
 
   const cargarReservas = async () => {
-    const { data } = await supabase.from('reservas').select('*');
-    if (data) setReservas(data);
+    const { data, error } = await supabase.from('reservas').select('*');
+    if (error) {
+      console.error("Error al cargar reservas:", error);
+    } else if (data) {
+      setReservas(data);
+    }
   };
 
   useEffect(() => {
@@ -37,7 +41,7 @@ export default function Home() {
     e.preventDefault();
     if (!pistaSeleccionada || !nombreCliente) return;
 
-    await supabase.from('reservas').insert([
+    const { error } = await supabase.from('reservas').insert([
       { 
         Pista: pistaSeleccionada.pista, 
         Hora: pistaSeleccionada.hora, 
@@ -45,9 +49,15 @@ export default function Home() {
         fecha: fechaSeleccionada 
       }
     ]);
-    
-    setPistaSeleccionada(null);
-    setNombreCliente('');
+
+    if (error) {
+      console.error("Error al insertar reserva:", error);
+      alert("Error al guardar: " + error.message);
+    } else {
+      setPistaSeleccionada(null);
+      setNombreCliente('');
+      cargarReservas();
+    }
   };
 
   return (
